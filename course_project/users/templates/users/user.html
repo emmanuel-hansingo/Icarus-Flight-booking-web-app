@@ -1,0 +1,28 @@
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Document</title>
+        <link name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{% static 'app2.css' %}">
+    </head>
+    <body style= 'padding: 10px'>
+        <nav>
+            <div class="heading">
+                <h4>Icarus</h4>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{% url 'icarus:index' %}?username={{ username }}">Search</a></li>
+                <li><a href="{% url 'icarus:booked_flights' %}?username={{ username }}">Booked</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+        <div class="body-text">
+            <h1><h1>Welcome, {{ username }}</h1></h1>
+        </div>          
+    </body>
+</html> 
+

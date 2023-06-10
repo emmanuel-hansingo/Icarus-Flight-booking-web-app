@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <style>
+        *{
+          margin: 0px;
+          padding: 5px;
+          box-sizing: border-box;
+        }
+        
+            nav{
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                min-height: 8vh;
+                background-color: teal;
+                font-family: "Montserrat", sans-serif;
+            }
+            
+            .nav-links{
+                display: flex;
+                justify-content: space-around;
+                width: 70%;
+            }
+            
+            .nav-links li {
+                list-style: none;
+            }
+            
+            .heading{
+                color: white;
+                text-transform: uppercase;
+                letter-spacing: 5px;
+                font-size: 20px;
+            }
+            
+            .nav-links a{
+                color: white;
+                text-decoration: none;
+                letter-spacing: 3px;
+                font-weight: bold;
+                font-size: 14px;
+                padding: 14px 16px;
+            }
+            
+            .nav-links li a:hover:not(.active){
+                background-color: lightseagreen;
+            }
+            
+            .nav-links li a.active{
+                background-color: #4caf50;
+            }
+
+            .content{
+              background-color: #009C9D;
+              border-radius: 10px;
+              box-shadow: 20px 20px 20px 0px rgba(0, 0, 0, 0.7);
+          }
+          </style>
+
+    </head>
+        
+
+    <body style='background-color: #54C4C1'>
+
+        <nav style='border-radius: 10px'>
+          <div class="heading">
+              <h4>Icarus</h4>
+          </div>
+          <ul class="nav-links">
+            <li><a class="active" href="{% url 'icarus:index' %}?username={{ username }}">Search</a></li>
+            <li><a href="{% url 'icarus:booked_flights' %}?username={{ username }}">Booked</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+        </nav>
+        <form  method='post'>
+            {% csrf_token %}
+            
+            <div class="container" style='background-color: #ffa500; border-radius: 10px; box-shadow: 20px 20px 20px 0px rgba(0, 0, 0, 0.7)'>
+            <h1>Welcome,  {{ username }}</h1>
+            <p>Enter departure and arrival airport codes e.g LAX </p>
+            <hr/>
+
+            {% for field in form %}
+            <div class="form-group">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+              {% endif %}
+              {% for error in field.errors %}
+                <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+              <p></p>
+            </div>
+            {% endfor %}
+            <button name='search-button'class="searchbtn" type="submit">Search</button>
+            <hr/>
+            
+        
+
+        </div>
+        </form>
+        
+         {% for flight in flight_results %}
+          <div class='content'>
+            <p>Flight date: {{ flight.flight_date }}, Flight Status: {{ flight.flight_status }}</p>
+            <p>Flight Time: {{ flight.departure.scheduled }}, Timezone: {{ flight.departure.timezone }}</p>
+            <p>Airline: {{ flight.airline.name}},  Flight number: {{ flight.flight.iata}}</p>
+            <p>Departure: {{flight.departure.airport}},  Arrival: {{ flight.arrival.airport }}</p>
+            
+            <form action="{% url 'book' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="user" value="{{ username }}">
+              <input type="hidden" name="flight_number" value="{{ flight.flight.iata }}">
+              <input type="hidden" name="airline" value="{{ flight.airline.name }}">
+              <input type="hidden" name="departure_time" value="{{ flight.departure.scheduled }}">
+              <input type="hidden" name="departure_place" value="{{ flight.departure.airport }}">
+              <input type="hidden" name="destination" value="{{ flight.arrival.airport }}">
+              <input type="submit" value="Book Flight">
+          </form>
+          </div>
+            <hr/>
+        {% endfor %} 
+
+ 
+
+
+        
+    </body>
+</html>

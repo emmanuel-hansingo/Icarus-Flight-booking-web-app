@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>User</title>
+        
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>
+
+
+<!--
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        email = request.POST["email"]
+        user = authenticate(request, username=username, password=password, email=email)
+        if user is not None:
+            login(request, user)
+            return render(request, 'users/user.html')#HttpResponseRedirect(redirect("user"))
+        else:
+            return render(render, "users/login.html", {
+                "message": "invalid credentials."
+            })
+
+    return render(request, "users/login.html") -->
+
+    

@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Login Page</title>
+    <link name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <style>
+
+        .div1 {
+            padding-left: 500px;
+            padding-top: 20px;
+            
+
+        }
+
+        .div2 {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            border-radius: 10px;
+            border: 2px solid #000; 
+            background-color: teal;
+            margin-top: 200px;
+            margin-right: 300px;
+            margin-left: 300px;
+            font-size: larger;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 20px 20px 20px 0px rgba(0, 0, 0, 0.7);
+
+        }
+
+        body {
+            background-image: url("{% static 'sunrise.jpg' %}" );
+            background-size: cover;
+            background-repeat: no-repeat;
+            justify-content: center;
+            align-items: center;
+            height : 590px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class='container'>
+
+        <div class='div1'>
+            <h1 style="font-family: Arial, Helvetica, sans-serif;">Welcome To Icarus!</h1>
+        </div>
+
+        
+
+        <div class='div2'>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">Username:</label>
+                    {{ form.username }}
+                    {% for error in form.username.errors %}
+                      <span name="error" class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                  <label for="{{ form.email.id_for_label }}">Email :</label>
+                  {{ form.email }}
+                  {% for error in form.email.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                  {% endfor %}
+                </div>
+                <div class="form-group">
+                  <label for="{{ form.password.id_for_label }}">Password:</label>
+                  {{ form.password }}
+                  {% for error in form.password.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                  {% endfor %}
+                </div>
+                <button name='login-button'type="submit">Login</button>
+              </form>
+              
+
+        </div>
+        {% if message %}
+            <div style='padding-left: 550px;'><h2>{{ message }}</h2></div>
+        {% endif %}
+        <p  style='padding-left: 570px; font-size: 25px'><strong><a href="{% url 'signup' %}">Create account</a></strong></p>
+
+    </div>
+
+</body>
+</html>
+
+
